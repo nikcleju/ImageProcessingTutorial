@@ -1,0 +1,25 @@
+project:
+  type: book
+
+book:
+  title: "ImgProcBasics"
+  author: "Jane Doe"
+  date: "4/9/2022"
+  chapters:
+    - index.qmd
+    - Overview.qmd
+    - GeometricTransformations.qmd
+    - LinearFiltering.qmd
+    - Binarization.qmd
+    - MorphologicalOperations.qmd
+
+bibliography: references.bib
+
+format:
+  html:
+    theme: cosmo
+  pdf:
+    documentclass: scrreprt
+
+execute: 
+  cache: true

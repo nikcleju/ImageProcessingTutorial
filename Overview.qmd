@@ -1,0 +1,16 @@
+---
+title: Overview
+execute: 
+  cache: true
+---
+
+## Outline:
+
+1. Geometric Transformations
+1. Linear filtering
+1. Image binarization
+   1. Histogram equalization
+   1. Thresholding
+   2. Adaptive thresholding
+   1. Otsu's method
+3. Morphological operations

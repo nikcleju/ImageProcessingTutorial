@@ -1,0 +1,209 @@
+---
+title: Linear Filtering
+execute: 
+  cache: true
+jupyter:
+  jupytext:
+    text_representation:
+      extension: .qmd
+      format_name: quarto
+      format_version: '1.0'
+      jupytext_version: 1.14.0
+  kernelspec:
+    display_name: Python 3 (ipykernel)
+    language: python
+    name: python3
+---
+
+
+# Linear filtering
+
+## Convolution
+
+- Convolution = linear combination of pixel values around current position
+
+![2D Convolution](img/Convolution2D.gif)
+
+- Image from http://machinelearninguru.com
+
+- See here: http://machinelearninguru.com/computer_vision/basics/convolution/convolution_layer.html
+
+## Effects
+
+- See here: ![https://en.wikipedia.org/wiki/Kernel_(image_processing)](https://en.wikipedia.org/wiki/Kernel_(image_processing))
+
+### Blur
+
+$$
+H = \begin{bmatrix}
+\frac{1}{9} & \frac{1}{9} & \frac{1}{9} \\
+\frac{1}{9} & \frac{1}{9} & \frac{1}{9} \\
+\frac{1}{9} & \frac{1}{9} & \frac{1}{9} \\
+\end{bmatrix}
+$$
+
+```{python}
+import cv2
+import matplotlib.pyplot as plt
+import numpy as np
+import scipy as sp
+import scipy.signal
+import skimage.color
+
+I = cv2.imread('img/lena512.bmp')
+
+# Make original image grayscale
+# Take care: OpenCV images are BGR, not RGB. Must convert
+I = cv2.cvtColor(I, cv2.COLOR_BGR2RGB)
+I = skimage.color.rgb2gray(I)
+
+# Define convolution kernel
+H = np.array([[1/9, 1/9, 1/9], [1/9, 1/9, 1/9], [1/9, 1/9, 1/9]])
+
+# Apply convolution
+Iblur = sp.signal.convolve2d(I, H, mode="same")
+
+f, axarr = plt.subplots(1,2)
+axarr[0].imshow(I,  cmap='gray')
+axarr[1].imshow(Iblur, cmap='gray')
+```
+
+### Apply multiple times
+
+$$I \ast H \ast H \ast H$$
+
+```{python}
+Iblur2 = sp.signal.convolve2d(Iblur, H, mode="same")
+Iblur3 = sp.signal.convolve2d(Iblur2, H, mode="same")
+
+plt.imshow(I,  cmap='gray')
+```
+
+```{python}
+plt.imshow(Iblur,  cmap='gray')
+```
+
+```{python}
+plt.imshow(Iblur2, cmap='gray')
+```
+
+```{python}
+plt.imshow(Iblur3, cmap='gray')
+```
+
+### Gaussian blur
+
+- Large $H$ matrix but values are decaying exponentially, following a Gaussian function centered in the middle
+
+- Parameters: $\sigma$
+  - $\sigma$ small = weak blurring
+  - $\sigma$ large = strong blurring
+
+```{python}
+import scipy.ndimage
+from ipywidgets import interact, interact_manual
+
+@interact(sigma=(0.01, 10, 0.1))
+def do_gauss_filter(sigma):
+  Igauss = scipy.ndimage.gaussian_filter(I, sigma)
+  plt.imshow(Igauss, cmap='gray')
+```
+
+### Edge detection
+
+$$
+H = \begin{bmatrix}
+-1 & -1 & -1 \\
+-1 &  +1 & -1 \\
+-1 & -1 & -1 \\
+\end{bmatrix}
+$$
+
+```{python}
+# Define convolution kernel
+H = np.array([[-1, -1, -1], [-1, 8, -1], [-1, -1, -1]])
+
+# Apply convolution
+Iedge = sp.signal.convolve2d(I, H, mode="same")
+plt.imshow(Iedge, cmap='gray')
+```
+
+### Edge detection with Sobel operator
+
+- Sobel: apply two filters and combine results
+
+$$
+H_1 = \begin{bmatrix}
+1 & 0 & -1 \\
+2 & 0 & -2 \\
+1 & 0 & -1 \\
+\end{bmatrix}
+\;\;\;\;
+H_2 = \begin{bmatrix}
+1 & 2 & 1 \\
+0 & 0 & 0 \\
+-1 & -2 & -1 \\
+\end{bmatrix}
+$$
+
+
+```{python}
+# Apply convolution
+Isobel = sp.ndimage.sobel(I)
+plt.imshow(Isobel, cmap='gray')
+```
+
+The background is grayscale because the convolution results are both positive and negative, and the plotting rescales the 0 value at the middle (128 = gray).
+
+If plot the absolute values we get:
+
+```{python}
+plt.imshow(np.abs(Isobel), cmap='gray')
+```
+
+### Sharpen
+
+```{python}
+from matplotlib.colors import Normalize
+
+# Define convolution kernel
+H = np.array([[0, -1, 0], [-1, 5, -1], [0, -1, 0]])
+
+# Apply convolution
+Isharp = sp.signal.convolve2d(I, H, mode="same")
+plt.imshow(Isharp, cmap='gray', norm=Normalize(0,1))
+```
+
+Repeat:
+
+```{python}
+Isharp2 = sp.signal.convolve2d(Isharp, H, mode="same")
+plt.imshow(Isharp2, cmap='gray', norm=Normalize(0,1))
+```
+
+```{python}
+Isharp3 = sp.signal.convolve2d(Isharp2, H, mode="same")
+plt.imshow(Isharp3, cmap='gray', norm=Normalize(0,1))
+```
+
+### Warnings:
+
+- Mathematical operations might lead to values outside $[0,1]$ => make sure to normaliza data when needed
+
+- Sharpening noisy data increases the noise!
+
+## Median filtering
+
+Replace a pixel with the **median** value in a local window surrounding it.
+
+Image
+
+```{python}
+Imedian = sp.signal.medfilt2d(I, 3)
+plt.imshow(Imedian, cmap='gray')
+```
+
+```{python}
+plt.imshow(I, cmap='gray')
+```
+

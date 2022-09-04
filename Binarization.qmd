@@ -1,0 +1,182 @@
+---
+title: Binarization
+execute: 
+  cache: true
+jupyter:
+  jupytext:
+    text_representation:
+      extension: .qmd
+      format_name: quarto
+      format_version: '1.0'
+      jupytext_version: 1.14.0
+  kernelspec:
+    display_name: Python 3 (ipykernel)
+    language: python
+    name: python3
+---
+
+## Grayscale images
+
+This chapter deals with hrayscale images
+
+
+```{python}
+import cv2
+import matplotlib.pyplot as plt
+import numpy as np
+import scipy as sp
+import scipy.signal
+import skimage.io
+import skimage.color
+import skimage.exposure
+from ipywidgets import interact
+
+#I = skimage.data.astronaut()
+I = skimage.io.imread('img/Trees.jpg')
+plt.imshow(I)
+```
+```{python}
+I = skimage.color.rgb2gray(I)
+plt.imshow(I, cmap='gray')
+```
+
+## Image histogram
+
+Histogram = the number of occurrences of every pixel value
+
+```{python}
+_,_,_=plt.hist(I.ravel(), bins=256)
+```
+
+## Histogram equalization
+
+Histogram equalization:
+
+- arrange all pixels in order, from smallest to largest 
+- set pixel value proportional to position of pixel in list
+  - darkest pixel becomes 0
+  - whitest pixed becomes 255
+  - the median pixel becomes 127
+  - ... 
+
+Advantage: 
+
+- Increase contrast
+
+```{python}
+plt.imshow(I, cmap='gray')
+```
+```{python}
+Iheq = skimage.exposure.equalize_hist(I)
+plt.imshow(Iheq, cmap='gray')
+```
+Original histogram: 
+```{python}
+_,_,_=plt.hist(I.ravel(), bins=256)
+```
+Final histogram:
+```{python}
+_,_,_=plt.hist(Iheq.ravel(), bins=256)
+```
+
+## Adaptive (local) histogram equalization
+
+- Apply hist. eq. based on a local window around current position
+
+Advantage:
+
+- images with unequal illumination
+
+```{python}
+P = skimage.data.page()
+plt.imshow(P, cmap='gray')
+```
+
+```{python}
+Pheq = skimage.exposure.equalize_hist(P)
+plt.imshow(Pheq, cmap='gray')
+```
+
+```{python}
+Pheqadapt = skimage.exposure.equalize_adapthist(P)
+plt.imshow(Pheqadapt, cmap='gray')
+```
+```{python}
+_,_,_=plt.hist(Pheqadapt.ravel(), bins=256)
+```
+
+## Thresholding
+
+= Make image binary, by comparing with a threshold T
+
+$T = 128$
+```{python}
+plt.imshow(P > 128, cmap='gray')
+```
+$T = 0.7$
+```{python}
+plt.imshow(P > 165, cmap='gray')
+```
+
+```{python}
+@interact(T=(0,255,1))
+def thresh(T):
+  plt.imshow(P > T, cmap='gray')
+```
+
+Thresholding the image after histogram adaptive equalziation:
+```{python}
+plt.imshow(Pheqadapt > 0.3, cmap='gray')
+```
+
+```{python}
+@interact(T=(0,1,0.01))
+def thresh(T):
+  plt.imshow(Pheqadapt > T, cmap='gray')
+```
+
+## Automatic thresholding with Otsu's method
+
+- Find threshold such as to **minimize intra-class variance**
+  - equivalently, maximize inter-class variance
+
+![Otsu's method explanation](img/Otsu.jpg)
+
+  ```{python}
+  from skimage.filters import threshold_otsu
+
+  T_Otsu = threshold_otsu(Pheqadapt)
+  print(f"Threshold found by Otsu method = {T_Otsu}")
+  plt.imshow(Pheqadapt > T_Otsu, cmap='gray')
+  ```
+
+## Adaptive thresholding
+
+- Find threshold based only on the surrounding region of a pixel
+  - can use any method: mean value of region, Otsu, etc
+
+- `threshold_local()` from `skimage` package: specify region size, and an offset to subtract from region mean
+
+
+```{python}
+from skimage.filters import threshold_local
+
+def thresh_local(block_size=25, offset=0.1):
+  Tadapt = threshold_local(Pheqadapt, block_size=block_size, offset=offset)
+  plt.imshow(Pheqadapt > Tadapt, cmap='gray')
+  return np.array(Pheqadapt > Tadapt, dtype=np.int)
+
+Pthr = thresh_local()
+
+skimage.io.imsave('img/PageBinary.png', Pthr, check_contrast=False)
+```
+
+Interactive:
+```{python}
+from skimage.filters import threshold_local
+
+@interact(block_size=(3, 128, 2), offset=(-0.2, 0.2, 0.01))
+def thresh_local(block_size, offset):
+  Tadapt = threshold_local(Pheqadapt, block_size=block_size, offset=offset)
+  plt.imshow(Pheqadapt > Tadapt, cmap='gray')
+```

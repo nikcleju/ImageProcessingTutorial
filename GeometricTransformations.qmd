@@ -1,0 +1,238 @@
+---
+title: Geometric Transformations
+execute: 
+  cache: true
+jupyter:
+  jupytext:
+    text_representation:
+      extension: .qmd
+      format_name: quarto
+      format_version: '1.0'
+      jupytext_version: 1.14.0
+  kernelspec:
+    display_name: Python 3 (ipykernel)
+    language: python
+    name: python3
+---
+
+## Geometric transformations
+
+- Rotations
+- Affine transformations (skew)
+- Perspective transformations
+
+A function $T(\dot)$ which transforms a pixel's original location $\begin{bmatrix} x \\ y \end{bmatrix}$ into the destination location $\begin{bmatrix} x' \\ y' \end{bmatrix}$
+
+$$\begin{bmatrix}
+x' \\
+y'
+\end{bmatrix}
+=T\left(
+\begin{bmatrix}
+x \\ 
+y
+\end{bmatrix}
+\right)$$
+
+## Comparison
+
+To Put image
+
+What stays unchanged?
+
+Rotation: 
+
+  - Lines remain lines, parallel remains parallel, angles are same, distances are same
+
+Affine (skew):
+
+  - Lines remain lines, parallel remains parallel, angles change, distances change
+
+Perspective:
+
+  - Lines remain lines, angles change, distances change, parallel remains parallel along one direction, converge to a point along other direction
+
+
+## Rotations
+
+Image
+
+$$\begin{bmatrix} x' \\ y' \end{bmatrix}
+=
+\begin{bmatrix}
+\cos{\alpha} & -\sin{\alpha} \\
+\sin{\alpha} & \cos{\alpha} \\
+\end{bmatrix} 
+\begin{bmatrix} x \\ y \end{bmatrix}
++
+\begin{bmatrix} t_1 \\ t_2 \end{bmatrix}
+$$
+
+- This includes a translation with $\begin{bmatrix} t_1 \\ t_2 \end{bmatrix}$.
+
+- Alternatively, we can drop $\begin{bmatrix} t_1 \\ t_2 \end{bmatrix}$, and we can pick the origin $\begin{bmatrix} 0 \\ 0 \end{bmatrix}$ where we want
+
+### Alternate equation
+
+$$\begin{bmatrix} x' \\ y' \\ 1\end{bmatrix}
+=
+\begin{bmatrix}
+\cos{\alpha} & -\sin{\alpha} & t_1\\
+\sin{\alpha} & \cos{\alpha}  & t_2\\
+0 & 0  & 1\\
+\end{bmatrix} 
+\begin{bmatrix} x \\ y \\ 1\end{bmatrix}
+$$
+
+
+### Rotation: Sample
+
+```{python}
+import cv2
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Display original
+I = cv2.imread('img/lena512.bmp')
+plt.imshow(I)
+```
+
+```{python}
+# Rotate with OpenCV
+angle = 25
+#fixed_point = tuple(np.array(I.shape[1::-1]) / 2)
+#fixed_point = tuple([50, 50])
+fixed_point = tuple([0, 0])
+
+rot_mat = cv2.getRotationMatrix2D(fixed_point, angle, 1.0)
+Irot = cv2.warpAffine(I, rot_mat, I.shape[1::-1], flags=cv2.INTER_LINEAR)
+
+print(f"Rotating around point {fixed_point}")
+print(f"Rotation matrix is {rot_mat}")
+plt.imshow(Irot)
+```
+
+## Affine transformations (skew)
+
+Image
+
+$$\begin{bmatrix} x' \\ y' \end{bmatrix}
+=
+\begin{bmatrix}
+a_{11} & a_{12} \\
+a_{21} & a_{22} \\
+\end{bmatrix} 
+\begin{bmatrix} x \\ y \end{bmatrix}
++
+\begin{bmatrix} t_1 \\ t_2 \end{bmatrix}
+$$
+or 
+$$\begin{bmatrix} x' \\ y' \\ 1 \end{bmatrix}
+=
+\begin{bmatrix}
+a_{11} & a_{12} & t_1\\
+a_{21} & a_{22} & t_2\\
+0 & 0 & 1 \\
+\end{bmatrix} 
+\begin{bmatrix} x \\ y \\ 1 \end{bmatrix}
+$$
+
+- Translation: $\begin{bmatrix} 0 \\ 0 \end{bmatrix}$ ends up at location $\begin{bmatrix} t_1 \\ t_2 \end{bmatrix}$
+
+- 6 unknowns: you need 3 pairs of points to define a skew
+
+## Affine transformation: Sample
+
+```{python}
+# Define pairs of points
+# point = (x, y) ; [511, 0] = top right
+points_src = np.float32([[0,0], [511, 0], [0, 511]])
+points_dst = np.float32([[0,0], [300, 100], [200, 511]])
+
+affine_mat = cv2.getAffineTransform(points_src, points_dst)
+Iaff = cv2.warpAffine(I, affine_mat, I.shape[1::-1], flags=cv2.INTER_LINEAR)
+
+print(f"Affine transformation matrix is {affine_mat}")
+plt.imshow(Iaff)
+```
+
+Example: https://theailearner.com/tag/cv2-getaffinetransform/
+
+## Application: Image morphing
+
+![Face morphing](img/FaceMorphing.png)
+
+1. Define point correspondences
+2. Decompose source image in triangles
+3. Compute affine transforms and warp every src triangle -> dst triangle
+4. Reassemble output image
+
+Source: [https://stackoverflow.com/a/65452859](https://stackoverflow.com/a/65452859)
+
+Also: [https://devendrapratapyadav.github.io/FaceMorphing/](https://devendrapratapyadav.github.io/FaceMorphing/)
+
+
+## Perspective transformations
+
+Image
+
+Step 1:
+$$\begin{bmatrix} x' \\ y' \\ w \end{bmatrix}
+=
+\begin{bmatrix}
+a_{11} & a_{12} & t_1\\
+a_{21} & a_{22} & t_2\\
+a_{31} & a_{32} & 1 \\
+\end{bmatrix} 
+\begin{bmatrix} x \\ y \\ 1 \end{bmatrix}
+$$
+
+Step 2: divide by $w$:
+$$
+\begin{bmatrix} x' \\ y' \\ w \end{bmatrix}
+\rightarrow
+\begin{bmatrix} x'/w \\ y'/w \\ 1 \end{bmatrix}
+$$
+
+- 8 unknowns: you need 4 pairs of points to define perspective
+
+## Perspective transformation: Sample
+
+```{python}
+# Define pairs of points
+# point = (x, y) ; [511, 0] = top right
+points_src = np.float32([[0,0],    [511, 0],  [0, 511],   [511, 511]])
+points_dst = np.float32([[200,50], [300, 50], [50, 411], [461, 411]])
+
+persp_mat = cv2.getPerspectiveTransform(points_src, points_dst, cv2.DECOMP_LU)
+Ipersp = cv2.warpPerspective(I, persp_mat, I.shape[1::-1], flags=cv2.INTER_LINEAR)
+
+print(f"Perspective transformation matrix is {persp_mat}")
+plt.imshow(Ipersp)
+```
+
+See here: [https://theailearner.com/tag/cv2-getperspectivetransform/](https://theailearner.com/tag/cv2-getperspectivetransform/)
+
+## How do these functions work?
+
+1. Find the inverse transformation
+$$
+\begin{bmatrix} x' \\ y' \end{bmatrix}
+\rightarrow  
+\begin{bmatrix} x \\ y \end{bmatrix}
+$$
+
+2. For each destination location $\begin{bmatrix} x' \\ y' \end{bmatrix}$:
+   
+   - Find the source location $\begin{bmatrix} x \\ y \end{bmatrix}$
+   - $x$ and $y$ may not be integers, so interpolate
+
+## Bilinear interploation
+
+![Bilinear interpolation](img/BilinearInterp1.png)
+
+- Interpolate the value based on the 4 neighbors
+
+- Source: [Wikipedia](https://en.wikipedia.org/wiki/Bilinear_interpolation)
+
+- Image: By Cmglee - Own work, CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=21409164

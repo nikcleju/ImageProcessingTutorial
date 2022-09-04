@@ -1,0 +1,162 @@
+---
+title: Morphological Operations
+execute: 
+  cache: true
+jupyter:
+  jupytext:
+    text_representation:
+      extension: .qmd
+      format_name: quarto
+      format_version: '1.0'
+      jupytext_version: 1.14.0
+  kernelspec:
+    display_name: Python 3 (ipykernel)
+    language: python
+    name: python3
+---
+
+## What are they
+
+Operations on **binary images** to fill in small gaps, eliminate spurious points.
+
+## Sample image
+
+Let's start from a binary image:
+
+```{python}
+import cv2
+import matplotlib.pyplot as plt
+import numpy as np
+import scipy as sp
+import scipy.signal
+import skimage.io
+import skimage.color
+import skimage.exposure
+from ipywidgets import interact
+
+I = skimage.io.imread('img/MorphoImage.jpg')
+I = skimage.color.rgb2gray(I)
+print(I)
+I = (I > 0.5).astype('uint8')
+plt.imshow(I, cmap='gray')
+```
+
+## Operations
+
+- Dilation
+- Erosion
+- Opening 
+- Closing
+
+## Dilation
+
+Consider a small **structuring element**, e.g. a disk of radius 3 px
+
+For every black pixel in the image:
+
+- Place the structuring element on that position
+- If it overlaps with the object (white), turn it white
+
+Dilation **grows** objects and eliminates **small gaps**
+
+![Dilation](img/Dilation.png)
+
+```{python}
+import skimage.morphology
+
+elem = skimage.morphology.disk(2)
+Idil = skimage.morphology.dilation(I, elem)
+plt.imshow(Idil, cmap=plt.cm.gray)
+```
+
+Interactive:
+```{python}
+@interact(radius=(1,10,1))
+def dil(radius):
+  elem = skimage.morphology.disk(radius)
+  Idil = skimage.morphology.dilation(I, elem)
+  plt.imshow(Idil, cmap=plt.cm.gray)
+```
+
+## Erosion
+
+Shrink the object:
+
+- put the disk on every white pixel in the image
+- keep pixel only if the disk is fully inside the object
+- otherwise, turn pixel to black
+
+Erosion **shrinks** objects and eliminates spurious small points.
+
+![Erosion](img/Erosion.png)
+
+```{python}
+Iers = skimage.morphology.erosion(I, elem)
+plt.imshow(Iers, cmap=plt.cm.gray)
+```
+
+Interactive:
+```{python}
+@interact(radius=(1,10,1))
+def ers(radius):
+  elem = skimage.morphology.disk(radius)
+  Iers = skimage.morphology.erosion(I, elem)
+  plt.imshow(Iers, cmap=plt.cm.gray)
+```
+
+## Opening
+
+Opening = Erosion followed by Dilation
+
+Small objects are removed
+
+```{python}
+Iopen = skimage.morphology.opening(I, elem)
+plt.imshow(Iopen, cmap=plt.cm.gray)
+```
+
+Interactive:
+```{python}
+@interact(radius=(1,10,1))
+def opn(radius):
+  elem = skimage.morphology.disk(radius)
+  Iopen = skimage.morphology.opening(I, elem)
+  plt.imshow(Iopen, cmap=plt.cm.gray)
+```
+
+
+## Closing
+
+Closing = Dilation followed by Erosion
+
+Small gaps are removed
+
+```{python}
+Iclose = skimage.morphology.closing(I, elem)
+plt.imshow(Iclose, cmap=plt.cm.gray)
+```
+
+Interactive:
+```{python}
+@interact(radius=(1,10,1))
+def clos(radius):
+  elem = skimage.morphology.disk(radius)
+  Iclose = skimage.morphology.closing(I, elem)
+  plt.imshow(Iclose, cmap=plt.cm.gray)
+```
+
+## Sequence
+
+Let's try an opening + closing
+
+```{python}
+elem = skimage.morphology.disk(3)
+Iopen = skimage.morphology.opening(I, elem)
+plt.imshow(Iopen, cmap=plt.cm.gray)
+Iclose = skimage.morphology.closing(Iopen, elem)
+plt.imshow(Iclose, cmap=plt.cm.gray)
+```
+
+## Other operations
+
+See here: ![https://scikit-image.org/docs/stable/auto_examples/applications/plot_morphology.html](https://scikit-image.org/docs/stable/auto_examples/applications/plot_morphology.html)
