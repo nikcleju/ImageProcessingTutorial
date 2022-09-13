@@ -35,6 +35,7 @@ jobs:
           
       - run: |
           # Nic: also install nbformat
+          conda activate quarto
           pip install nbformat
 
       #- uses: actions/setup-python@v4
