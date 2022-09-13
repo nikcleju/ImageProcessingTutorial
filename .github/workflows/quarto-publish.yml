@@ -4,7 +4,12 @@ on:
 
 name: Render and Publish
 
+
 jobs:
+  defaults:
+    run:
+      shell: bash -l {0}
+
   build-deploy:
     runs-on: ubuntu-latest
     steps:
@@ -21,15 +26,21 @@ jobs:
       
       # add software dependencies here
 
-      - uses: actions/setup-python@v4
+      - uses: conda-incubator/setup-miniconda@v2
         with:
-          python-version: '3.x' # Version range or exact version of a Python version to use, using SemVer's version range syntax
-      - name: Install environment
-        run: |
-          # $CONDA is an environment variable pointing to the root of the miniconda directory
-          $CONDA/bin/conda env update --file environment.yml --name base
-          $CONDA/bin/conda init bash
-          $CONDA/bin/conda activate base
+          activate-environment: quarto
+          environment-file: environment.yml
+          auto-activate-base: false
+
+      #- uses: actions/setup-python@v4
+      #  with:
+      #    python-version: '3.x' # Version range or exact version of a Python version to use, using SemVer's version range syntax
+      #- name: Install environment
+      #  run: |
+      #    # $CONDA is an environment variable pointing to the root of the miniconda directory
+      #    $CONDA/bin/conda env update --file environment.yml --name base
+      #    $CONDA/bin/conda init bash
+      #    $CONDA/bin/conda activate base
 
       # To publish to Netlify, RStudio Connect, or GitHub Pages, uncomment
       # the appropriate block below
