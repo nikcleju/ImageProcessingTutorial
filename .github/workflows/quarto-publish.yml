@@ -65,6 +65,7 @@ jobs:
       #     CONNECT_API_KEY: ${{ secrets.CONNECT_API_KEY }} 
 
       - name: Publish to GitHub Pages (and render)
+        shell: bash -l {0}
         uses: quarto-dev/quarto-actions/publish@v2
         with:
           target: gh-pages
