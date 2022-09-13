@@ -16,15 +16,7 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v3
-        
-      - name: Set up Quarto
-        uses: quarto-dev/quarto-actions/setup@v2
-        with:
-          # To install LaTeX to build PDF book 
-          tinytex: true 
-          # uncomment below and fill to pin a version
-          # version: 0.9.600
-      
+              
       # add software dependencies here
 
       - uses: conda-incubator/setup-miniconda@v2
@@ -38,15 +30,13 @@ jobs:
           conda activate quarto
           pip install nbformat
 
-      #- uses: actions/setup-python@v4
-      #  with:
-      #    python-version: '3.x' # Version range or exact version of a Python version to use, using SemVer's version range syntax
-      #- name: Install environment
-      #  run: |
-      #    # $CONDA is an environment variable pointing to the root of the miniconda directory
-      #    $CONDA/bin/conda env update --file environment.yml --name base
-      #    $CONDA/bin/conda init bash
-      #    $CONDA/bin/conda activate base
+      - name: Set up Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
+        with:
+          # To install LaTeX to build PDF book 
+          tinytex: true 
+          # uncomment below and fill to pin a version
+          # version: 0.9.600
 
       # To publish to Netlify, RStudio Connect, or GitHub Pages, uncomment
       # the appropriate block below
@@ -65,7 +55,6 @@ jobs:
       #     CONNECT_API_KEY: ${{ secrets.CONNECT_API_KEY }} 
 
       - name: Publish to GitHub Pages (and render)
-        shell: bash -l {0}
         uses: quarto-dev/quarto-actions/publish@v2
         with:
           target: gh-pages
