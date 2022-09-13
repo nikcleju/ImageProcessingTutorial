@@ -33,9 +33,9 @@ jobs:
           environment-file: environment.yml
           auto-activate-base: false
           
-       - run: |
-           # Nic: also install nbformat
-           pip install nbformat
+      - run: |
+          # Nic: also install nbformat
+          pip install nbformat
 
       #- uses: actions/setup-python@v4
       #  with:
