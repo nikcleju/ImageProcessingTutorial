@@ -17,11 +17,17 @@ jupyter:
 
 ## Geometric transformations
 
-- Rotations
-- Affine transformations (skew)
-- Perspective transformations
+![Geometry transformations](img/GeometricalTransformations.png)
 
-A function $T(\dot)$ which transforms a pixel's original location $\begin{bmatrix} x \\ y \end{bmatrix}$ into the destination location $\begin{bmatrix} x' \\ y' \end{bmatrix}$
+- image from: [https://learnopencv.com/warp-one-triangle-to-another-using-opencv-c-python/](https://learnopencv.com/warp-one-triangle-to-another-using-opencv-c-python/)
+
+In detail: 
+
+- Rotations (Euclidean)
+- Affine transformations (skew)
+- Perspective transformations (homography)
+
+Any transformation = a function $T(\dot)$ which transforms a pixel's original location $\begin{bmatrix} x \\ y \end{bmatrix}$ into the destination location $\begin{bmatrix} x' \\ y' \end{bmatrix}$
 
 $$\begin{bmatrix}
 x' \\
@@ -36,9 +42,9 @@ y
 
 ## Comparison
 
-To Put image
-
 What stays unchanged?
+
+![Geometry transformations](img/GeometricalTransformations.png)
 
 Rotation: 
 
@@ -55,7 +61,11 @@ Perspective:
 
 ## Rotations
 
-Image
+![Rotation (and translation)](img/Rotation.png)
+
+- image from: [https://mikamustonen.com/2019-06-22-how-to-rotate-an-image-with-opencv.html](https://mikamustonen.com/2019-06-22-how-to-rotate-an-image-with-opencv.html)
+
+Equation: 
 
 $$\begin{bmatrix} x' \\ y' \end{bmatrix}
 =
