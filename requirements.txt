@@ -4,4 +4,4 @@ nbformat
 opencv-python
 matplotlib
 scipy
-skimage
+scikit-image
