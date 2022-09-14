@@ -1,5 +1,6 @@
 jupyter
 jupyter-cache
 nbformat
-matplotlib
 opencv-python
+matplotlib
+scipy
