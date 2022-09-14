@@ -18,8 +18,10 @@ bibliography: references.bib
 format:
   html:
     theme: cosmo
-  pdf:
-    documentclass: scrreprt
+
+  # PDF fails because of included .gif file
+  # pdf:
+  #   documentclass: scrreprt
 
 execute: 
   cache: true
