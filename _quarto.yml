@@ -2,9 +2,10 @@ project:
   type: book
 
 book:
-  title: "ImgProcBasics"
-  author: "Jane Doe"
-  date: "4/9/2022"
+  title: "Image Processing Basics"
+  subtitle: "A quick tutorial"
+  author: "Nicolae Cleju"
+  date: "9/14/2022"
   chapters:
     - index.qmd
     - Overview.qmd

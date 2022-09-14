@@ -17,7 +17,7 @@ jupyter:
 
 ## Geometric transformations
 
-![Geometry transformations](img/GeometricalTransformations.png)
+![Geometry transformations](img/GeometricalTransformations.jpg)
 
 - image from: [https://learnopencv.com/warp-one-triangle-to-another-using-opencv-c-python/](https://learnopencv.com/warp-one-triangle-to-another-using-opencv-c-python/)
 
