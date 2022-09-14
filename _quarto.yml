@@ -19,7 +19,6 @@ bibliography: references.bib
 format:
   html:
     theme: cosmo
-
   # PDF fails because of included .gif file
   # pdf:
   #   documentclass: scrreprt

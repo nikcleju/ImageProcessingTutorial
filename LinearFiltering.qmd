@@ -16,21 +16,24 @@ jupyter:
 ---
 
 
-# Linear filtering
 
 ## Convolution
 
-- Convolution = linear combination of pixel values around current position
+- **Convolution** = linear combination of pixel values around current position
 
-![2D Convolution](img/Convolution2D.gif)
+- Uses a **kernel** matrix $H$ = a mask with weight values
 
-- Image from http://machinelearninguru.com
+- Place kernel over every location, multiply, and add
 
-- See here: http://machinelearninguru.com/computer_vision/basics/convolution/convolution_layer.html
+![2D Convolution[^srcConv]](img/Convolution2D.gif)
+
+[^srcConv]: Image from http://machinelearninguru.com
+
+- Also see here: http://machinelearninguru.com/computer_vision/basics/convolution/convolution_layer.html
 
 ## Effects
 
-- See here: ![https://en.wikipedia.org/wiki/Kernel_(image_processing)](https://en.wikipedia.org/wiki/Kernel_(image_processing))
+Some examples here: ![https://en.wikipedia.org/wiki/Kernel_(image_processing)](https://en.wikipedia.org/wiki/Kernel_(image_processing))
 
 ### Blur
 
@@ -188,7 +191,9 @@ plt.imshow(Isharp3, cmap='gray', norm=Normalize(0,1))
 
 ### Warnings:
 
-- Mathematical operations might lead to values outside $[0,1]$ => make sure to normaliza data when needed
+- Mathematical operations need the pixel values to be real values in the $[0,1]$ interval, not `uint8`
+
+- Mathematical operations might lead to output values outside $[0,1]$ => make sure to normalize data when needed, or clip to $[0,1]$ interval
 
 - Sharpening noisy data increases the noise!
 

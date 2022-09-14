@@ -4,8 +4,9 @@ execute:
   cache: true
 ---
 
-## Outline:
+## Outline
 
+1. Overview
 1. Geometric Transformations
 1. Linear filtering
 1. Image binarization

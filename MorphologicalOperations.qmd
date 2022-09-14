@@ -56,10 +56,13 @@ For every black pixel in the image:
 
 - Place the structuring element on that position
 - If it overlaps with the object (white), turn it white
+- Otherwise, it remains black
 
 Dilation **grows** objects and eliminates **small gaps**
 
-![Dilation](img/Dilation.png)
+![Dilation and Erosion[^srcDilEros]](img/DilationAndErosion.jpg)
+
+[^srcDilEros]: Image from ![https://www.ris-ai.com/python-opencv-basic-operations-on-images](https://www.ris-ai.com/python-opencv-basic-operations-on-images)
 
 ```{python}
 import skimage.morphology
@@ -80,15 +83,15 @@ def dil(radius):
 
 ## Erosion
 
-Shrink the object:
+For every white pixel in the image:
 
-- put the disk on every white pixel in the image
-- keep pixel only if the disk is fully inside the object
-- otherwise, turn pixel to black
+- Place the structuring element on that position
+- If it overlaps with any black pixel, turn it to black
+- Otherwise, it remains white
 
 Erosion **shrinks** objects and eliminates spurious small points.
 
-![Erosion](img/Erosion.png)
+![Dilation and Erosion[^srcDilEros]](img/DilationAndErosion.jpg)
 
 ```{python}
 Iers = skimage.morphology.erosion(I, elem)
@@ -102,26 +105,6 @@ def ers(radius):
   elem = skimage.morphology.disk(radius)
   Iers = skimage.morphology.erosion(I, elem)
   plt.imshow(Iers, cmap=plt.cm.gray)
-```
-
-## Opening
-
-Opening = Erosion followed by Dilation
-
-Small objects are removed
-
-```{python}
-Iopen = skimage.morphology.opening(I, elem)
-plt.imshow(Iopen, cmap=plt.cm.gray)
-```
-
-Interactive:
-```{python}
-@interact(radius=(1,10,1))
-def opn(radius):
-  elem = skimage.morphology.disk(radius)
-  Iopen = skimage.morphology.opening(I, elem)
-  plt.imshow(Iopen, cmap=plt.cm.gray)
 ```
 
 
@@ -145,6 +128,26 @@ def clos(radius):
   plt.imshow(Iclose, cmap=plt.cm.gray)
 ```
 
+## Opening
+
+Opening = Erosion followed by Dilation
+
+Small objects are removed
+
+```{python}
+Iopen = skimage.morphology.opening(I, elem)
+plt.imshow(Iopen, cmap=plt.cm.gray)
+```
+
+Interactive:
+```{python}
+@interact(radius=(1,10,1))
+def opn(radius):
+  elem = skimage.morphology.disk(radius)
+  Iopen = skimage.morphology.opening(I, elem)
+  plt.imshow(Iopen, cmap=plt.cm.gray)
+```
+
 ## Sequence
 
 Let's try an opening + closing
@@ -159,4 +162,4 @@ plt.imshow(Iclose, cmap=plt.cm.gray)
 
 ## Other operations
 
-See here: ![https://scikit-image.org/docs/stable/auto_examples/applications/plot_morphology.html](https://scikit-image.org/docs/stable/auto_examples/applications/plot_morphology.html)
+See here: [https://scikit-image.org/docs/stable/auto_examples/applications/plot_morphology.html](https://scikit-image.org/docs/stable/auto_examples/applications/plot_morphology.html)

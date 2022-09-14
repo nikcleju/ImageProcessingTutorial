@@ -17,7 +17,7 @@ jupyter:
 
 ## Grayscale images
 
-This chapter deals with hrayscale images
+Note: This chapter deals with grayscale images only (for now)
 
 
 ```{python}
@@ -81,7 +81,7 @@ _,_,_=plt.hist(Iheq.ravel(), bins=256)
 
 ## Adaptive (local) histogram equalization
 
-- Apply hist. eq. based on a local window around current position
+- Apply histogram equalization based on a **local window** around current position
 
 Advantage:
 
@@ -107,13 +107,13 @@ _,_,_=plt.hist(Pheqadapt.ravel(), bins=256)
 
 ## Thresholding
 
-= Make image binary, by comparing with a threshold T
+Thresholding = Make an image binary, by comparing with a threshold T
 
-$T = 128$
+Example: Threshold $T = 128$
 ```{python}
 plt.imshow(P > 128, cmap='gray')
 ```
-$T = 0.7$
+Example: Threshold $T = 165$
 ```{python}
 plt.imshow(P > 165, cmap='gray')
 ```
@@ -124,9 +124,9 @@ def thresh(T):
   plt.imshow(P > T, cmap='gray')
 ```
 
-Thresholding the image after histogram adaptive equalziation:
+Thresholding the image after adaptive equalization of histogram:
 ```{python}
-plt.imshow(Pheqadapt > 0.3, cmap='gray')
+plt.imshow(Pheqadapt > 0.30, cmap='gray')
 ```
 
 ```{python}
@@ -142,18 +142,19 @@ def thresh(T):
 
 ![Otsu's method explanation](img/Otsu.jpg)
 
-  ```{python}
-  from skimage.filters import threshold_otsu
+```{python}
+from skimage.filters import threshold_otsu
 
-  T_Otsu = threshold_otsu(Pheqadapt)
-  print(f"Threshold found by Otsu method = {T_Otsu}")
-  plt.imshow(Pheqadapt > T_Otsu, cmap='gray')
-  ```
+T_Otsu = threshold_otsu(Pheqadapt)
+print(f"Threshold found by Otsu method = {T_Otsu}")
+plt.imshow(Pheqadapt > T_Otsu, cmap='gray')
+```
 
 ## Adaptive thresholding
 
-- Find threshold based only on the surrounding region of a pixel
-  - can use any method: mean value of region, Otsu, etc
+Adaptove = Find threshold based only on the **surrounding region** of a pixel
+  
+- Can use any method: mean value of region, Otsu, etc
 
 - `threshold_local()` from `skimage` package: specify region size, and an offset to subtract from region mean
 
@@ -164,7 +165,7 @@ from skimage.filters import threshold_local
 def thresh_local(block_size=25, offset=0.1):
   Tadapt = threshold_local(Pheqadapt, block_size=block_size, offset=offset)
   plt.imshow(Pheqadapt > Tadapt, cmap='gray')
-  return np.array(Pheqadapt > Tadapt, dtype=np.int)
+  return np.array(Pheqadapt > Tadapt, dtype=int)
 
 Pthr = thresh_local()
 
