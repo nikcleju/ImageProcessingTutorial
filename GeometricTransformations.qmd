@@ -44,7 +44,7 @@ y
 
 What stays unchanged?
 
-![Geometry transformations](img/GeometricalTransformations.png)
+![Geometry transformations](img/GeometricalTransformations.jpg)
 
 Rotation: 
 
@@ -56,7 +56,7 @@ Affine (skew):
 
 Perspective:
 
-  - Lines remain lines, angles change, distances change, parallel remains parallel along one direction, converge to a point along other direction
+  - Lines remain lines, angles change, distances change, parallels don't remain parallel
 
 
 ## Rotations
