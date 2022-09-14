@@ -196,20 +196,26 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#geometric-transformations" id="toc-geometric-transformations" class="nav-link active" data-scroll-target="#geometric-transformations"><span class="toc-section-number">2.1</span>  Geometric transformations</a></li>
+  <li><a href="#quick-overview" id="toc-quick-overview" class="nav-link active" data-scroll-target="#quick-overview"><span class="toc-section-number">2.1</span>  Quick overview</a></li>
   <li><a href="#comparison" id="toc-comparison" class="nav-link" data-scroll-target="#comparison"><span class="toc-section-number">2.2</span>  Comparison</a></li>
   <li><a href="#rotations" id="toc-rotations" class="nav-link" data-scroll-target="#rotations"><span class="toc-section-number">2.3</span>  Rotations</a>
   <ul class="collapse">
   <li><a href="#alternate-equation" id="toc-alternate-equation" class="nav-link" data-scroll-target="#alternate-equation"><span class="toc-section-number">2.3.1</span>  Alternate equation</a></li>
-  <li><a href="#rotation-sample" id="toc-rotation-sample" class="nav-link" data-scroll-target="#rotation-sample"><span class="toc-section-number">2.3.2</span>  Rotation: Sample</a></li>
+  <li><a href="#sample-code" id="toc-sample-code" class="nav-link" data-scroll-target="#sample-code"><span class="toc-section-number">2.3.2</span>  Sample code</a></li>
   </ul></li>
-  <li><a href="#affine-transformations-skew" id="toc-affine-transformations-skew" class="nav-link" data-scroll-target="#affine-transformations-skew"><span class="toc-section-number">2.4</span>  Affine transformations (skew)</a></li>
-  <li><a href="#affine-transformation-sample" id="toc-affine-transformation-sample" class="nav-link" data-scroll-target="#affine-transformation-sample"><span class="toc-section-number">2.5</span>  Affine transformation: Sample</a></li>
-  <li><a href="#application-image-morphing" id="toc-application-image-morphing" class="nav-link" data-scroll-target="#application-image-morphing"><span class="toc-section-number">2.6</span>  Application: Image morphing</a></li>
-  <li><a href="#perspective-transformations" id="toc-perspective-transformations" class="nav-link" data-scroll-target="#perspective-transformations"><span class="toc-section-number">2.7</span>  Perspective transformations</a></li>
-  <li><a href="#perspective-transformation-sample" id="toc-perspective-transformation-sample" class="nav-link" data-scroll-target="#perspective-transformation-sample"><span class="toc-section-number">2.8</span>  Perspective transformation: Sample</a></li>
-  <li><a href="#how-do-these-functions-work" id="toc-how-do-these-functions-work" class="nav-link" data-scroll-target="#how-do-these-functions-work"><span class="toc-section-number">2.9</span>  How do these functions work?</a></li>
-  <li><a href="#bilinear-interploation" id="toc-bilinear-interploation" class="nav-link" data-scroll-target="#bilinear-interploation"><span class="toc-section-number">2.10</span>  Bilinear interploation</a></li>
+  <li><a href="#affine-transformations-skew" id="toc-affine-transformations-skew" class="nav-link" data-scroll-target="#affine-transformations-skew"><span class="toc-section-number">2.4</span>  Affine transformations (skew)</a>
+  <ul class="collapse">
+  <li><a href="#sample-code-1" id="toc-sample-code-1" class="nav-link" data-scroll-target="#sample-code-1"><span class="toc-section-number">2.4.1</span>  Sample code</a></li>
+  <li><a href="#sample-app-image-morphing" id="toc-sample-app-image-morphing" class="nav-link" data-scroll-target="#sample-app-image-morphing"><span class="toc-section-number">2.4.2</span>  Sample App: Image morphing</a></li>
+  </ul></li>
+  <li><a href="#perspective-transformations" id="toc-perspective-transformations" class="nav-link" data-scroll-target="#perspective-transformations"><span class="toc-section-number">2.5</span>  Perspective transformations</a>
+  <ul class="collapse">
+  <li><a href="#sample-code-2" id="toc-sample-code-2" class="nav-link" data-scroll-target="#sample-code-2"><span class="toc-section-number">2.5.1</span>  Sample code</a></li>
+  </ul></li>
+  <li><a href="#implementation-details" id="toc-implementation-details" class="nav-link" data-scroll-target="#implementation-details"><span class="toc-section-number">2.6</span>  Implementation details</a>
+  <ul class="collapse">
+  <li><a href="#bilinear-interploation" id="toc-bilinear-interploation" class="nav-link" data-scroll-target="#bilinear-interploation"><span class="toc-section-number">2.6.1</span>  Bilinear interploation</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -232,24 +238,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
-<section id="geometric-transformations" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="geometric-transformations"><span class="header-section-number">2.1</span> Geometric transformations</h2>
+<section id="quick-overview" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="quick-overview"><span class="header-section-number">2.1</span> Quick overview</h2>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="img/GeometricalTransformations.jpg" class="img-fluid figure-img"></p>
-<p></p><figcaption class="figure-caption">Geometry transformations</figcaption><p></p>
+<p></p><figcaption class="figure-caption">Geometry transformations<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></figcaption><p></p>
 </figure>
 </div>
-<ul>
-<li>image from: <a href="https://learnopencv.com/warp-one-triangle-to-another-using-opencv-c-python/">https://learnopencv.com/warp-one-triangle-to-another-using-opencv-c-python/</a></li>
-</ul>
-<p>In detail:</p>
+<p>We’ll cover:</p>
 <ul>
 <li>Rotations (Euclidean)</li>
 <li>Affine transformations (skew)</li>
 <li>Perspective transformations (homography)</li>
 </ul>
-<p>Any transformation = a function <span class="math inline">\(T(\dot)\)</span> which transforms a pixel’s original location <span class="math inline">\(\begin{bmatrix} x \\ y \end{bmatrix}\)</span> into the destination location <span class="math inline">\(\begin{bmatrix} x' \\ y' \end{bmatrix}\)</span></p>
+<p>A geometrical transformation = a function <span class="math inline">\(T(\dot)\)</span> which transforms a pixel’s original location <span class="math inline">\(\begin{bmatrix} x \\ y \end{bmatrix}\)</span> into the destination location <span class="math inline">\(\begin{bmatrix} x' \\ y' \end{bmatrix}\)</span></p>
 <p><span class="math display">\[\begin{bmatrix}
 x' \\
 y'
@@ -267,7 +270,7 @@ y
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="img/GeometricalTransformations.jpg" class="img-fluid figure-img"></p>
-<p></p><figcaption class="figure-caption">Geometry transformations</figcaption><p></p>
+<p></p><figcaption class="figure-caption">Geometry transformations<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></figcaption><p></p>
 </figure>
 </div>
 <p>Rotation:</p>
@@ -288,12 +291,9 @@ y
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="img/Rotation.png" class="img-fluid figure-img"></p>
-<p></p><figcaption class="figure-caption">Rotation (and translation)</figcaption><p></p>
+<p></p><figcaption class="figure-caption">Rotation (and translation)<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></figcaption><p></p>
 </figure>
 </div>
-<ul>
-<li>image from: <a href="https://mikamustonen.com/2019-06-22-how-to-rotate-an-image-with-opencv.html">https://mikamustonen.com/2019-06-22-how-to-rotate-an-image-with-opencv.html</a></li>
-</ul>
 <p>Equation:</p>
 <p><span class="math display">\[\begin{bmatrix} x' \\ y' \end{bmatrix}
 =
@@ -321,8 +321,8 @@ y
 \begin{bmatrix} x \\ y \\ 1\end{bmatrix}
 \]</span></p>
 </section>
-<section id="rotation-sample" class="level3" data-number="2.3.2">
-<h3 data-number="2.3.2" class="anchored" data-anchor-id="rotation-sample"><span class="header-section-number">2.3.2</span> Rotation: Sample</h3>
+<section id="sample-code" class="level3" data-number="2.3.2">
+<h3 data-number="2.3.2" class="anchored" data-anchor-id="sample-code"><span class="header-section-number">2.3.2</span> Sample code</h3>
 <div class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> cv2</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -332,7 +332,7 @@ y
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>I <span class="op">=</span> cv2.imread(<span class="st">'img/lena512.bmp'</span>)</span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>plt.imshow(I)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="1">
-<pre><code>&lt;matplotlib.image.AxesImage at 0x7f9bfb78e280&gt;</code></pre>
+<pre><code>&lt;matplotlib.image.AxesImage at 0x7fd84d3e1280&gt;</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <p><img src="GeometricTransformations_files/figure-html/cell-2-output-2.png" width="428" height="416"></p>
@@ -357,7 +357,7 @@ Rotation matrix is [[ 0.90630779  0.42261826  0.        ]
  [-0.42261826  0.90630779  0.        ]]</code></pre>
 </div>
 <div class="cell-output cell-output-display" data-execution_count="2">
-<pre><code>&lt;matplotlib.image.AxesImage at 0x7f9bf7c3b280&gt;</code></pre>
+<pre><code>&lt;matplotlib.image.AxesImage at 0x7fd84988b280&gt;</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <p><img src="GeometricTransformations_files/figure-html/cell-3-output-3.png" width="428" height="416"></p>
@@ -367,7 +367,12 @@ Rotation matrix is [[ 0.90630779  0.42261826  0.        ]
 </section>
 <section id="affine-transformations-skew" class="level2" data-number="2.4">
 <h2 data-number="2.4" class="anchored" data-anchor-id="affine-transformations-skew"><span class="header-section-number">2.4</span> Affine transformations (skew)</h2>
-<p>Image</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/AffineTransf.jpg" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Affine Transformation<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></figcaption><p></p>
+</figure>
+</div>
 <p><span class="math display">\[\begin{bmatrix} x' \\ y' \end{bmatrix}
 =
 \begin{bmatrix}
@@ -390,9 +395,8 @@ a_{21} &amp; a_{22} &amp; t_2\\
 <li><p>Translation: <span class="math inline">\(\begin{bmatrix} 0 \\ 0 \end{bmatrix}\)</span> ends up at location <span class="math inline">\(\begin{bmatrix} t_1 \\ t_2 \end{bmatrix}\)</span></p></li>
 <li><p>6 unknowns: you need 3 pairs of points to define a skew</p></li>
 </ul>
-</section>
-<section id="affine-transformation-sample" class="level2" data-number="2.5">
-<h2 data-number="2.5" class="anchored" data-anchor-id="affine-transformation-sample"><span class="header-section-number">2.5</span> Affine transformation: Sample</h2>
+<section id="sample-code-1" class="level3" data-number="2.4.1">
+<h3 data-number="2.4.1" class="anchored" data-anchor-id="sample-code-1"><span class="header-section-number">2.4.1</span> Sample code</h3>
 <div class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define pairs of points</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># point = (x, y) ; [511, 0] = top right</span></span>
@@ -409,7 +413,7 @@ a_{21} &amp; a_{22} &amp; t_2\\
  [0.19569472 1.         0.        ]]</code></pre>
 </div>
 <div class="cell-output cell-output-display" data-execution_count="3">
-<pre><code>&lt;matplotlib.image.AxesImage at 0x7f9bfb6b9fd0&gt;</code></pre>
+<pre><code>&lt;matplotlib.image.AxesImage at 0x7fd84d30afd0&gt;</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <p><img src="GeometricTransformations_files/figure-html/cell-4-output-3.png" width="428" height="416"></p>
@@ -417,8 +421,8 @@ a_{21} &amp; a_{22} &amp; t_2\\
 </div>
 <p>Example: https://theailearner.com/tag/cv2-getaffinetransform/</p>
 </section>
-<section id="application-image-morphing" class="level2" data-number="2.6">
-<h2 data-number="2.6" class="anchored" data-anchor-id="application-image-morphing"><span class="header-section-number">2.6</span> Application: Image morphing</h2>
+<section id="sample-app-image-morphing" class="level3" data-number="2.4.2">
+<h3 data-number="2.4.2" class="anchored" data-anchor-id="sample-app-image-morphing"><span class="header-section-number">2.4.2</span> Sample App: Image morphing</h3>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="img/FaceMorphing.png" class="img-fluid figure-img"></p>
@@ -434,9 +438,15 @@ a_{21} &amp; a_{22} &amp; t_2\\
 <p>Source: <a href="https://stackoverflow.com/a/65452859">https://stackoverflow.com/a/65452859</a></p>
 <p>Also: <a href="https://devendrapratapyadav.github.io/FaceMorphing/">https://devendrapratapyadav.github.io/FaceMorphing/</a></p>
 </section>
-<section id="perspective-transformations" class="level2" data-number="2.7">
-<h2 data-number="2.7" class="anchored" data-anchor-id="perspective-transformations"><span class="header-section-number">2.7</span> Perspective transformations</h2>
-<p>Image</p>
+</section>
+<section id="perspective-transformations" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="perspective-transformations"><span class="header-section-number">2.5</span> Perspective transformations</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/PerspectiveTransf.jpg" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Perspective Transformation<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a></figcaption><p></p>
+</figure>
+</div>
 <p>Step 1: <span class="math display">\[\begin{bmatrix} x' \\ y' \\ w \end{bmatrix}
 =
 \begin{bmatrix}
@@ -446,7 +456,7 @@ a_{31} &amp; a_{32} &amp; 1 \\
 \end{bmatrix}
 \begin{bmatrix} x \\ y \\ 1 \end{bmatrix}
 \]</span></p>
-<p>Step 2: divide by <span class="math inline">\(w\)</span>: <span class="math display">\[
+<p>Step 2: divide by <span class="math inline">\(w\)</span> <span class="math display">\[
 \begin{bmatrix} x' \\ y' \\ w \end{bmatrix}
 \rightarrow
 \begin{bmatrix} x'/w \\ y'/w \\ 1 \end{bmatrix}
@@ -454,9 +464,8 @@ a_{31} &amp; a_{32} &amp; 1 \\
 <ul>
 <li>8 unknowns: you need 4 pairs of points to define perspective</li>
 </ul>
-</section>
-<section id="perspective-transformation-sample" class="level2" data-number="2.8">
-<h2 data-number="2.8" class="anchored" data-anchor-id="perspective-transformation-sample"><span class="header-section-number">2.8</span> Perspective transformation: Sample</h2>
+<section id="sample-code-2" class="level3" data-number="2.5.1">
+<h3 data-number="2.5.1" class="anchored" data-anchor-id="sample-code-2"><span class="header-section-number">2.5.1</span> Sample code</h3>
 <div class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define pairs of points</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co"># point = (x, y) ; [511, 0] = top right</span></span>
@@ -474,7 +483,7 @@ a_{31} &amp; a_{32} &amp; 1 \\
  [-0.00000000e+00 -1.48080430e-03  1.00000000e+00]]</code></pre>
 </div>
 <div class="cell-output cell-output-display" data-execution_count="4">
-<pre><code>&lt;matplotlib.image.AxesImage at 0x7f9bfb62a250&gt;</code></pre>
+<pre><code>&lt;matplotlib.image.AxesImage at 0x7fd84d27b250&gt;</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <p><img src="GeometricTransformations_files/figure-html/cell-5-output-3.png" width="428" height="416"></p>
@@ -482,36 +491,48 @@ a_{31} &amp; a_{32} &amp; 1 \\
 </div>
 <p>See here: <a href="https://theailearner.com/tag/cv2-getperspectivetransform/">https://theailearner.com/tag/cv2-getperspectivetransform/</a></p>
 </section>
-<section id="how-do-these-functions-work" class="level2" data-number="2.9">
-<h2 data-number="2.9" class="anchored" data-anchor-id="how-do-these-functions-work"><span class="header-section-number">2.9</span> How do these functions work?</h2>
+</section>
+<section id="implementation-details" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="implementation-details"><span class="header-section-number">2.6</span> Implementation details</h2>
+<p>How do these function work?</p>
 <ol type="1">
-<li><p>Find the inverse transformation <span class="math display">\[
+<li><p>Find the inverse transformation <span class="math inline">\(T^{-1}(\cdot)\)</span> <span class="math display">\[
 \begin{bmatrix} x' \\ y' \end{bmatrix}
 \rightarrow  
 \begin{bmatrix} x \\ y \end{bmatrix}
 \]</span></p></li>
 <li><p>For each destination location <span class="math inline">\(\begin{bmatrix} x' \\ y' \end{bmatrix}\)</span>:</p>
 <ul>
-<li>Find the source location <span class="math inline">\(\begin{bmatrix} x \\ y \end{bmatrix}\)</span></li>
+<li>Find the source location <span class="math inline">\(\begin{bmatrix} x \\ y \end{bmatrix}\)</span> and read that pixel from the source image</li>
 <li><span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> may not be integers, so interpolate</li>
 </ul></li>
 </ol>
-</section>
-<section id="bilinear-interploation" class="level2" data-number="2.10">
-<h2 data-number="2.10" class="anchored" data-anchor-id="bilinear-interploation"><span class="header-section-number">2.10</span> Bilinear interploation</h2>
+<section id="bilinear-interploation" class="level3" data-number="2.6.1">
+<h3 data-number="2.6.1" class="anchored" data-anchor-id="bilinear-interploation"><span class="header-section-number">2.6.1</span> Bilinear interploation</h3>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="img/BilinearInterp1.png" class="img-fluid figure-img"></p>
-<p></p><figcaption class="figure-caption">Bilinear interpolation</figcaption><p></p>
+<p><img src="img/BilinearInterp1.png" class="img-fluid figure-img" style="width:50.0%"></p>
+<p></p><figcaption class="figure-caption">Bilinear interpolation<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a></figcaption><p></p>
 </figure>
 </div>
 <ul>
 <li><p>Interpolate the value based on the 4 neighbors</p></li>
 <li><p>Source: <a href="https://en.wikipedia.org/wiki/Bilinear_interpolation">Wikipedia</a></p></li>
-<li><p>Image: By Cmglee - Own work, CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=21409164</p></li>
 </ul>
 
 
+</section>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>Image from: <a href="https://learnopencv.com/warp-one-triangle-to-another-using-opencv-c-python/">https://learnopencv.com/warp-one-triangle-to-another-using-opencv-c-python/</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Image from: <a href="https://learnopencv.com/warp-one-triangle-to-another-using-opencv-c-python/">https://learnopencv.com/warp-one-triangle-to-another-using-opencv-c-python/</a><a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Image from: <a href="https://mikamustonen.com/2019-06-22-how-to-rotate-an-image-with-opencv.html">https://mikamustonen.com/2019-06-22-how-to-rotate-an-image-with-opencv.html</a><a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>Image from <a href="https://www.geeksforgeeks.org/python-opencv-affine-transformation/">https://www.geeksforgeeks.org/python-opencv-affine-transformation/</a><a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>Image from <a href="https://answers.opencv.org/question/181902/warpperspective-advice-with-correct-bbox-pixels/">https://answers.opencv.org/question/181902/warpperspective-advice-with-correct-bbox-pixels/</a><a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6"><p>Image copyright: By Cmglee - Own work, CC BY-SA 3.0, https://commons.wikimedia.org/w/index.php?curid=21409164<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
 </section>
 
 </main> <!-- /main -->
