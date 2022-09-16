@@ -1,4 +1,8 @@
-opencv-python
+
+# Use opencv-python-headless
+# in environments like Docker
+#opencv-python
+opencv-python-headless
 
 jupyter == 1.00
 jupyter-cache == 0.5.0
